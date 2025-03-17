@@ -134,9 +134,10 @@ const App = () => {
                     </Button>
                     {weather && (
                         <Paper elevation={3} sx={{ mt: 2, p: 2 }}>
-                            <Typography variant="h6">{weather.name}</Typography>
-                            <Typography>{weather.weather[0].description}</Typography>
-                            <Typography>{`Temperature: ${(weather.main.temp - 273.15).toFixed(2)}°C`}</Typography>
+                            <Typography variant="h6">{weather.city}</Typography>
+                            <Typography>{`Data: ${weather.date}`}</Typography>
+                            <Typography>{`Temperatura: ${weather.day.temp_max}°C`}</Typography>
+                            <Typography>{`Prędkośc wiatru: ${weather.day.wind_velocity} km/h`}</Typography>
                         </Paper>
                     )}
                 </Box>

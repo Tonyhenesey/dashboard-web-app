@@ -71,12 +71,20 @@ app.get('/api/github/repos', async (req, res) => {
 app.get('/api/weather', async (req, res) => {
     const { city } = req.query;
 
+    if (!city) {
+        return res.status(400).json({ error: 'City parameter is required' });
+    }
+
     try {
         const response = await axios.get(
-            `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.OPENWEATHERMAP_API_KEY}`
+            `https://dobrapogoda24.pl/api/v1/weather/simple?city=${city}&day=1&token=${process.env.DOBRAPOGODA24_API_KEY}`
         );
         res.json(response.data);
     } catch (error) {
+        console.error('Weather API Error:', error.message);
+        if (error.response) {
+            console.error('DobraPogoda24 Error Response:', error.response.data);
+        }
         res.status(500).json({ error: 'Failed to fetch weather data' });
     }
 });
