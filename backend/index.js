@@ -89,13 +89,57 @@ app.get('/api/weather', async (req, res) => {
     }
 });
 
-// Pobierz listę publicznych API
-app.get('/api/public-apis', async (req, res) => {
+// // Pobierz listę publicznych API
+// app.get('/api/public-apis', async (req, res) => {
+//     try {
+//         const response = await axios.get('https://api.publicapis.org/entries');
+//         res.json(response.data);
+//     } catch (error) {
+//         res.status(500).json({ error: 'Failed to fetch public APIs' });
+//     }
+// });
+
+//  aktualne kursy walut
+app.get('/api/currency-rates', async (req, res) => {
     try {
-        const response = await axios.get('https://api.publicapis.org/entries');
+        const response = await axios.get('https://api.currencyfreaks.com/v2.0/rates/latest', {
+            params: {
+                apikey: process.env.CURRENCYFREAKS_API_KEY ,
+                symbols: 'USD,EUR,GBP,JPY,CHF,CAD,AUD,PLN'
+
+            }
+        });
         res.json(response.data);
     } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch public APIs' });
+        console.error('CurrencyFreaks API Error:', error.message);
+        if (error.response) {
+            console.error('CurrencyFreaks Error Response:', error.response.data);
+        }
+        res.status(500).json({ error: 'Failed to fetch currency rates' });
+    }
+});
+//  historyczne kursy walut
+app.get('/api/currency-rates/historical', async (req, res) => {
+    const { date } = req.query; //  YYYY-MM-DD
+
+    if (!date) {
+        return res.status(400).json({ error: 'Date parameter is required' });
+    }
+
+    try {
+        const response = await axios.get('https://api.currencyfreaks.com/v2.0/historical', {
+            params: {
+                apikey: process.env.CURRENCYFREAKS_API_KEY,
+                date: date,
+            }
+        });
+        res.json(response.data);
+    } catch (error) {
+        console.error('CurrencyFreaks Historical API Error:', error.message);
+        if (error.response) {
+            console.error('CurrencyFreaks Error Response:', error.response.data);
+        }
+        res.status(500).json({ error: 'Failed to fetch historical currency rates' });
     }
 });
 
