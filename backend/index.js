@@ -118,30 +118,30 @@ app.get('/api/currency-rates', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch currency rates' });
     }
 });
-//  historyczne kursy walut
-app.get('/api/currency-rates/historical', async (req, res) => {
-    const { date } = req.query; //  YYYY-MM-DD
-
-    if (!date) {
-        return res.status(400).json({ error: 'Date parameter is required' });
-    }
-
-    try {
-        const response = await axios.get('https://api.currencyfreaks.com/v2.0/historical', {
-            params: {
-                apikey: process.env.CURRENCYFREAKS_API_KEY,
-                date: date,
-            }
-        });
-        res.json(response.data);
-    } catch (error) {
-        console.error('CurrencyFreaks Historical API Error:', error.message);
-        if (error.response) {
-            console.error('CurrencyFreaks Error Response:', error.response.data);
-        }
-        res.status(500).json({ error: 'Failed to fetch historical currency rates' });
-    }
-});
+// //  historyczne kursy walut
+// app.get('/api/currency-rates/historical', async (req, res) => {
+//     const { date } = req.query; //  YYYY-MM-DD
+//
+//     if (!date) {
+//         return res.status(400).json({ error: 'Date parameter is required' });
+//     }
+//
+//     try {
+//         const response = await axios.get('https://api.currencyfreaks.com/v2.0/historical', {
+//             params: {
+//                 apikey: process.env.CURRENCYFREAKS_API_KEY,
+//                 date: date,
+//             }
+//         });
+//         res.json(response.data);
+//     } catch (error) {
+//         console.error('CurrencyFreaks Historical API Error:', error.message);
+//         if (error.response) {
+//             console.error('CurrencyFreaks Error Response:', error.response.data);
+//         }
+//         res.status(500).json({ error: 'Failed to fetch historical currency rates' });
+//     }
+// });
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
