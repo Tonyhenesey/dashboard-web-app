@@ -16,6 +16,8 @@ Przejdź do katalogu backend/:
 
 cd backend/
 
+npm isntall
+
 Uruchom serwer backendu:
 
 npm start
@@ -27,6 +29,8 @@ Otwórz nową konsolę.
 Przejdź do katalogu frontend/:
 
 cd frontend/
+
+npm install
 
 Uruchom aplikację frontendową:
 
@@ -56,11 +60,9 @@ Po zapisaniu otrzymasz Client ID i Client Secret.
 
 Dodaj te dane do pliku .env:
 
-GITHUB_CLIENT_ID=twoj_client_id
-GITHUB_CLIENT_SECRET=twoj_client_secret
-GITHUB_CALLBACK_URL=http://localhost:3000/auth/github/callback
+GITHUB_CLIENT_ID=twoj_client_id GITHUB_CLIENT_SECRET=twoj_client_secret GITHUB_CALLBACK_URL=http://localhost:3000/auth/github/callback
 
-🌦 API Pogodowe – Dobrapogoda24 - 
+🌦 API Pogodowe – Dobrapogoda24 -
 
 Aby uzyskać klucz API:
 

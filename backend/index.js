@@ -28,7 +28,7 @@ const oauth2 = new AuthorizationCode({
 // Endpoint do logowania przez GitHub
 app.get('/auth/github', (req, res) => {
     const authorizationUri = oauth2.authorizeURL({
-        redirect_uri: 'http://localhost:3000/auth/github/callback', // Upewnij się, że to jest poprawny adres
+        redirect_uri: 'http://localhost:3000/auth/github/callback',
         scope: 'repo',
     });
     res.redirect(authorizationUri);

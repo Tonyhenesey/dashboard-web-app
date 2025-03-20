@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
@@ -14,6 +13,10 @@ import {
     ListItemText,
     Paper,
     Box,
+    Select,
+    MenuItem,
+    FormControl,
+    InputLabel,
 } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -97,22 +100,36 @@ const CurrencyConverter = ({ currencyRates }) => {
                     />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                    <TextField
-                        label="From Currency"
-                        variant="outlined"
-                        value={fromCurrency}
-                        onChange={(e) => setFromCurrency(e.target.value)}
-                        fullWidth
-                    />
+                    <FormControl fullWidth>
+                        <InputLabel>From Currency</InputLabel>
+                        <Select
+                            value={fromCurrency}
+                            onChange={(e) => setFromCurrency(e.target.value)}
+                            label="From Currency"
+                        >
+                            {Object.keys(currencyNames).map((currency) => (
+                                <MenuItem key={currency} value={currency}>
+                                    {currency}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                    <TextField
-                        label="To Currency"
-                        variant="outlined"
-                        value={toCurrency}
-                        onChange={(e) => setToCurrency(e.target.value)}
-                        fullWidth
-                    />
+                    <FormControl fullWidth>
+                        <InputLabel>To Currency</InputLabel>
+                        <Select
+                            value={toCurrency}
+                            onChange={(e) => setToCurrency(e.target.value)}
+                            label="To Currency"
+                        >
+                            {Object.keys(currencyNames).map((currency) => (
+                                <MenuItem key={currency} value={currency}>
+                                    {currency}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                 </Grid>
             </Grid>
             {convertedAmount !== null && (
@@ -165,18 +182,15 @@ const App = () => {
         default: "🌤️",
     };
 
-    // Przechwycenie access token z URL po przekierowaniu z GitHub
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get('access_token');
         if (token) {
             setAccessToken(token);
-            // Usuń access token z URL, aby uniknąć ponownego użycia
             window.history.replaceState({}, document.title, window.location.pathname);
         }
     }, []);
 
-    // Pobieranie repo z GitHub
     const fetchRepos = async () => {
         try {
             const response = await axios.get('http://localhost:3000/api/github/repos', {
@@ -188,7 +202,6 @@ const App = () => {
         }
     };
 
-    // Pobieranie pogody
     const fetchWeather = async () => {
         if (!city) {
             alert('Proszę wprowadzić miasto.');
@@ -210,7 +223,6 @@ const App = () => {
         }
     };
 
-    // Pobieranie aktualnych kursów walut
     const fetchCurrencyRates = async () => {
         try {
             const response = await axios.get('http://localhost:3000/api/currency-rates');
